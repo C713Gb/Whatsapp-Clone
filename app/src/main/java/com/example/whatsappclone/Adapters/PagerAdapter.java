@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

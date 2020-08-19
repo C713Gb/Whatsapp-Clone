@@ -8,12 +8,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.whatsappclone.Adapters.PagerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,13 +35,33 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ViewPager viewPager = findViewById(R.id.viewPager);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        final TabLayout tabLayout = findViewById(R.id.tabLayout);
         floatingActionButton = findViewById(R.id.Fab);
 
         setUpHomeViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
-        final int[] i = {0};
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int pos = tabLayout.getSelectedTabPosition();
+                switch (pos){
+                    case 0:
+                        startActivity(new Intent(MainActivity.this, SelectContactActivity.class));
+                        break;
+                    case 1:
+                        Toast.makeText(MainActivity.this, "Status", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(MainActivity.this, "Call", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(MainActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
