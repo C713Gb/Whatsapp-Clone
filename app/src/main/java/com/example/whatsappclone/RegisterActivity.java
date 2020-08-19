@@ -2,7 +2,10 @@ package com.example.whatsappclone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +22,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -28,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button submit, verify;
     private String str_phone = null, str_name = null, str_otp = null, codeSent = null;
     private FirebaseAuth mAuth;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +43,18 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Sign in");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         init();
+
+        if (mAuth.getCurrentUser() != null && !mAuth.getCurrentUser().toString().contains("com.google.firebase.auth.internal.zzp")) {
+            Toast.makeText(this, mAuth.getCurrentUser().toString(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
+        }
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +77,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, str_otp);
 
+        pd = new ProgressDialog(RegisterActivity.this);
+        pd.setMessage("Signing in ...");
+        pd.show();
+
         signInWithPhoneAuthCredential(credential);
     }
 
@@ -68,9 +90,31 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Signing in", Toast.LENGTH_SHORT).show();
 
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            String userid = firebaseUser.getUid();
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userid);
+
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("id", userid);
+                            hashMap.put("phone", str_phone);
+                            hashMap.put("name", str_name);
+
+                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        pd.dismiss();
+                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         } else {
+                            pd.dismiss();
                             Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
@@ -99,19 +143,19 @@ public class RegisterActivity extends AppCompatActivity {
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            Toast.makeText(RegisterActivity.this, "Verification completed!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(RegisterActivity.this, "Verification completed!", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
 
-            Toast.makeText(RegisterActivity.this, "Verification code sent to mobile number!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, "OTP sent to phone number!", Toast.LENGTH_LONG).show();
             codeSent = s;
         }
     };
