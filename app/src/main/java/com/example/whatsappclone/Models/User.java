@@ -5,14 +5,24 @@ public class User {
     private String id;
     private String username;
     private String imageURI;
+    private String phone;
 
     public User() {
     }
 
-    public User(String id, String username, String imageURI) {
+    public User(String id, String username, String imageURI, String phone) {
         this.id = id;
         this.username = username;
         this.imageURI = imageURI;
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getId() {

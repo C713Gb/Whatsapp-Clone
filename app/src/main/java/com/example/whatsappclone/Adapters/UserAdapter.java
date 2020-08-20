@@ -40,6 +40,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         User user = mUser.get(position);
         holder.username.setText(user.getUsername());
+        holder.number.setText(user.getPhone());
 
         if (user.getImageURI().equals("default")) {
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
@@ -60,7 +61,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView username;
+        public TextView username, number;
         public ImageView profile_image;
 
         public ViewHolder(@NonNull View itemView) {
@@ -68,6 +69,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             username = itemView.findViewById(R.id.contactUsername);
             profile_image = itemView.findViewById(R.id.profileImage);
+            number = itemView.findViewById(R.id.contactNumber);
         }
     }
 
