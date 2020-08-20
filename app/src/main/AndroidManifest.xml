@@ -17,7 +17,6 @@
         <activity android:name=".MessageActivity"></activity>
         <activity android:name=".SelectContactActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".StartActivity">
             <intent-filter>
