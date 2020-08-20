@@ -3,6 +3,8 @@ package com.example.whatsappclone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.whatsappclone.Adapters.MessageAdapter;
+import com.example.whatsappclone.Models.Chat;
 import com.example.whatsappclone.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,6 +43,9 @@ public class MessageActivity extends AppCompatActivity {
 
     private ImageButton sendBtn;
     private EditText msg;
+    private MessageAdapter messageAdapter;
+    private List<Chat> mChats;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,11 @@ public class MessageActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         msg = findViewById(R.id.textmsg);
         sendBtn = findViewById(R.id.sendBtn);
+        recyclerView = findViewById(R.id.msgsRecycler);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         intent = getIntent();
         final String userid = intent.getStringExtra("userid");
@@ -93,6 +107,9 @@ public class MessageActivity extends AppCompatActivity {
                             .load(user.getImageURI())
                             .into(profileImage);
                 }
+
+                readMessages(firebaseUser.getUid(), userid);
+
             }
 
             @Override
@@ -113,6 +130,36 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
 
         databaseReference.child("Chats").push().setValue(hashMap);
+
+    }
+
+    private void readMessages(final String myid, final String userid) {
+        mChats = new ArrayList<>();
+
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Chats");
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                mChats.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if ((chat.getReceiver().equals(myid) && chat.getSender().equals(userid)) ||
+                            (chat.getReceiver().equals(userid) && chat.getSender().equals(myid))) {
+                        mChats.add(chat);
+                    }
+                }
+
+                messageAdapter = new MessageAdapter(MessageActivity.this, mChats);
+                recyclerView.setAdapter(messageAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
