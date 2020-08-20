@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.whatsappclone.Adapters.PagerAdapter;
+import com.example.whatsappclone.Tabs.CallFragment;
+import com.example.whatsappclone.Tabs.ChatFragment;
+import com.example.whatsappclone.Tabs.StatusFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,6 +98,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 
     private void setUpHomeViewPager(ViewPager viewPager) {

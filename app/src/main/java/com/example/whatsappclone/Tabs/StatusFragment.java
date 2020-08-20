@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.Tabs;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.whatsappclone.R;
 
 public class StatusFragment extends Fragment {
 
