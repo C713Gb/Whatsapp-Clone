@@ -46,6 +46,7 @@ public class MessageActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private List<Chat> mChats;
     private RecyclerView recyclerView;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         intent = getIntent();
-        final String userid = intent.getStringExtra("userid");
+        userid = intent.getStringExtra("userid");
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +131,25 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
 
         databaseReference.child("Chats").push().setValue(hashMap);
+
+        // add user to chat fragment
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(firebaseUser.getUid())
+                .child(userid);
+
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    chatRef.child("id").setValue(userid);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
