@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    android:background="@color/white">
+    tools:context=".ProfileActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarProfile"
@@ -38,15 +37,17 @@
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_collapseMode="pin"
-                app:title="Username"/>
+                app:title=""/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:background="@color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.cardview.widget.CardView
@@ -66,6 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="About and phone number"
+                        android:textSize="18sp"
                         android:textColor="@color/colorPrimary"
                         android:padding="10dp"/>
 
@@ -73,6 +75,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Hey there! I am using Whatsapp."
+                        android:textSize="18sp"
                         android:textColor="@color/black"
                         android:padding="10dp"/>
 
@@ -88,18 +91,22 @@
                         android:paddingTop="5dp">
 
                         <TextView
+                            android:id="@+id/profilePhoneNumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="+91 9798504865"
+                            android:text=""
+                            android:textSize="18sp"
                             android:textColor="@color/black"
                             android:padding="10dp"
                             android:layout_weight="1"/>
 
                         <ImageView
+                            android:id="@+id/chatimg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/green_contact_icon"
                             android:layout_gravity="center_vertical"
+                            android:clickable="true"
                             android:layout_marginRight="20dp"/>
 
                     </LinearLayout>
@@ -111,6 +118,5 @@
 
         </androidx.core.widget.NestedScrollView>
 
-    </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

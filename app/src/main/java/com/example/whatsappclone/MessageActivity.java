@@ -65,14 +65,6 @@ public class MessageActivity extends AppCompatActivity {
         msg = findViewById(R.id.textmsg);
         sendBtn = findViewById(R.id.sendBtn);
         RelativeLayout relativeLayout = findViewById(R.id.nameLayout);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MessageActivity.this, ProfileActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
 
         recyclerView = findViewById(R.id.msgsRecycler);
         recyclerView.setHasFixedSize(true);
@@ -82,6 +74,16 @@ public class MessageActivity extends AppCompatActivity {
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
+
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessageActivity.this, ProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("userid", userid);
+                startActivity(intent);
+            }
+        });
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override

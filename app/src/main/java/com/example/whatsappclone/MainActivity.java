@@ -131,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout:
                 logout();
                 return true;
+            case R.id.settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
