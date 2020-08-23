@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.whatsappclone.Models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Intent intent;
     private String userid;
     private TextView profilePhoneNumber;
-    private ImageView chatimg;
+    private ImageView chatimg, profileImage;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         profilePhoneNumber = findViewById(R.id.profilePhoneNumber);
         chatimg = findViewById(R.id.chatimg);
+        profileImage = findViewById(R.id.profileImage);
         chatimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +56,14 @@ public class ProfileActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 getSupportActionBar().setTitle(user.getUsername());
                 profilePhoneNumber.setText(user.getPhone());
+                if (user.getImageURI().equals("default")) {
+                    profileImage.setImageResource(R.drawable.minon_hitman);
+                } else {
+                    Glide
+                            .with(getApplicationContext())
+                            .load(user.getImageURI())
+                            .into(profileImage);
+                }
             }
 
             @Override
