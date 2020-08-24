@@ -6,23 +6,17 @@ public class User {
     private String username;
     private String imageURI;
     private String phone;
+    private String status;
 
     public User() {
     }
 
-    public User(String id, String username, String imageURI, String phone) {
+    public User(String id, String username, String imageURI, String phone, String status) {
         this.id = id;
         this.username = username;
         this.imageURI = imageURI;
         this.phone = phone;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+        this.status = status;
     }
 
     public String getId() {
@@ -47,5 +41,21 @@ public class User {
 
     public void setImageURI(String imageURI) {
         this.imageURI = imageURI;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

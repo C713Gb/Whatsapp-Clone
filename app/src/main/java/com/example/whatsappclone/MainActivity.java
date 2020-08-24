@@ -15,12 +15,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.whatsappclone.Adapters.PagerAdapter;
+import com.example.whatsappclone.Settings.SettingsActivity;
 import com.example.whatsappclone.Tabs.CallFragment;
 import com.example.whatsappclone.Tabs.ChatFragment;
 import com.example.whatsappclone.Tabs.StatusFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -143,5 +149,23 @@ public class MainActivity extends AppCompatActivity {
         mAuth.signOut();
         finish();
         startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+    }
+
+    private void status(String status) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
+
+        reference.child("status").setValue(status);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("Offline");
     }
 }

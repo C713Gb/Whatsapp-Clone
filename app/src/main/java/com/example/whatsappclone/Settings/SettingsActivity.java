@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.Models.User;
+import com.example.whatsappclone.R;
+import com.example.whatsappclone.UserProfile.EditProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

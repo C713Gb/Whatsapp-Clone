@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.UserProfile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,10 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.Models.User;
+import com.example.whatsappclone.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.auth.FirebaseAuth;

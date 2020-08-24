@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.UserProfile;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.Models.User;
+import com.example.whatsappclone.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

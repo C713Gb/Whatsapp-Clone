@@ -29,7 +29,8 @@
                     android:id="@+id/chatProfileImage"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_marginRight="5dp"/>
 
                 <TextView
                     android:id="@+id/chatName"
@@ -40,7 +41,17 @@
                     android:text="Username"
                     android:textSize="20sp"
                     android:textColor="@color/white"
-                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/chatStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="status"
+                    android:textColor="@color/white"
+                    android:layout_toRightOf="@+id/chatProfileImage"
+                    android:layout_toEndOf="@+id/chatProfileImage"
+                    android:layout_below="@+id/chatName"
                     android:layout_marginLeft="5dp"/>
 
 

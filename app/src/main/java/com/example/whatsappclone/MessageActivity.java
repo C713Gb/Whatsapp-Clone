@@ -28,9 +28,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -201,4 +204,25 @@ public class MessageActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void status(String status) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        reference.child("status").setValue(status);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+        status("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("Offline");
+    }
+
 }
