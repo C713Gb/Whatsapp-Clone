@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -194,6 +196,13 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_right_message_toolbar, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -201,8 +210,18 @@ public class MessageActivity extends AppCompatActivity {
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
+            case R.id.video_call:
+                Toast.makeText(this, "Video Call", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.voice_call:
+                Intent intent1 = new Intent(MessageActivity.this, CallActivity.class);
+                intent1.putExtra("userid", userid);
+                startActivity(intent1);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     private void status(String status) {

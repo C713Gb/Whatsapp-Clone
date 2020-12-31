@@ -46,7 +46,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.number.setText(user.getPhone());
 
         if (user.getImageURI().equals("default")) {
-            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+            Glide
+                    .with(mContext)
+                    .load(R.mipmap.ic_launcher)
+                    .into(holder.profile_image);
         } else {
             Glide
                     .with(mContext)
